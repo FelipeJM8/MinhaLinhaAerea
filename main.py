@@ -23,7 +23,7 @@ def tabelaUsuarios():
 
 @app.route('/opcoes')
 def opcoes():
-   tutulo = opcoes
+   titulo = opcoes
    return render_template('opcoes.html')
 
 @app.route('/login', methods = ['GET','POST'])
@@ -41,5 +41,10 @@ def login():
 
       
    return render_template('login.html')
+
+@app.route('/loginUsuario', methods = ['GET','POST'])
+def loginUsuario():
+      titulo = loginUsuario      
+      return render_template('loginUsuario.html')
 
 app.run(debug=True)
