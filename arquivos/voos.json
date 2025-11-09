@@ -1,0 +1,23 @@
+[
+    {
+        "codigo":"01203",
+        "origem": "Salvador",
+        "destino": "Sao Paulo",
+        "assentos": 100,
+        "preco": 100.00
+    },
+    {
+        "codigo":"01340",
+        "origem": "Salvador",
+        "destino": "Acre",
+        "assentos": 100,
+        "preco": 200.00
+    },
+    {   
+        "codigo":"01483",
+        "origem": "Salvador",
+        "destino": "Brasilia",
+        "assentos": 100,
+        "preco": 300.00
+    }
+]
