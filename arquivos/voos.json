@@ -1,4 +1,4 @@
-[
+{"linhas" : [  
     {
         "codigo":"01203",
         "origem": "Salvador",
@@ -21,3 +21,5 @@
         "preco": 300.00
     }
 ]
+
+}
