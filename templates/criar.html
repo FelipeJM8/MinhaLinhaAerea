@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="crudVoos" content="width=device-width, initial-scale=1.0">
+    <title>Gerenciar_Voos</title>
+</head>
+
+<body>
+  <style>
+        body {
+            background-image: url('.//static/img/CeuEstrelado.png');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            background-color: #000033; 
+        }       
+        h1, p {
+            color: white;
+            text-align: center;
+        }
+    </style>
+        <div class="container text-center" style ="background-color: rgba(33, 3, 142, 0.636);">
+
+    <form action="criar" method="POST">
+        <center>
+        <div class="mb-3">   
+            <h1 class = "text-center">Gerenciar_Voos</h1>
+            <p></p> 
+
+            <div class="mb-3">
+            <label for="exampleInputCodigo1" class="form-label">codigo</label>
+            <input type="codigo" name="codigo" class="form-control" id="exampleInputCodigo1">
+        </div>
+
+        <label for="exampleInputOrigem" class="form-label">origem</label>
+            <input type="origem" name="origem" class="form-control" id="exampleInputOrigem"">
+            <div id="origemHelp" class="form-text"></div>  
+
+        <div class="mb-3">
+            <label for="exampleInputDestino" class="form-label">destino</label>
+            <input type="destino" name="destino" class="form-control" id="exampleInputDestino">
+        </div>
+
+        <div class="mb-3">
+            <label for="exampleInputAssentos1" class="form-label">assentos</label>
+            <input type="assentos" name="assentos" class="form-control" id="exampleInputAssentos1">
+        </div>
+
+        <div class="mb-3">
+            <label for="exampleInputPreco1" class="form-label">preco</label>
+            <input type="preco" name="preco" class="form-control" id="exampleInputPreco1">
+        </div>
+
+        </div>
+
+        <button type="submit" class="btn btn-primary">Confirmar</button>
+
+        </center>
+        </div> 
+    </form>
+    
+</body>
+</html>

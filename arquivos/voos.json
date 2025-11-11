@@ -1,25 +1,27 @@
-{"linhas" : [  
-    {
-        "codigo":"01203",
-        "origem": "Salvador",
-        "destino": "Sao Paulo",
-        "assentos": 100,
-        "preco": 100.00
+{
+    "LAT9012": {
+        "origem": "Bras\u00c3\u00adlia",
+        "destino": "Fortaleza",
+        "assentos": 200,
+        "preco": 500.75
     },
-    {
-        "codigo":"01340",
-        "origem": "Salvador",
-        "destino": "Acre",
-        "assentos": 100,
-        "preco": 200.00
+    "AZ3456": {
+        "origem": "farol",
+        "destino": "gdtr",
+        "assentos": 233,
+        "preco": 444444444.0
     },
-    {   
-        "codigo":"01483",
+    "GOL7890": {
         "origem": "Salvador",
-        "destino": "Brasilia",
-        "assentos": 100,
-        "preco": 300.00
+        "destino": "Manaus",
+        "assentos": 170,
+        "preco": 600.0
+    },
+    "12345": {
+        "codigo": "12345",
+        "origem": "braza",
+        "destino": "outromundo",
+        "assentos": "234",
+        "preco": "222"
     }
-]
-
 }

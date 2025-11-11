@@ -1,0 +1,14 @@
+{
+    "joao@gmail.com":{
+        "usuario": "Joao",
+        "senha":"12345"
+        },
+    "claudio@gmail.com": {
+        "usuario": "Claudio", 
+        "senha":"54321"
+        },
+    "toninho@gmail.com":{
+        "usuario": "Antonio", 
+        "senha":"01234"
+        }
+    }
