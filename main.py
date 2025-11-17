@@ -1,11 +1,12 @@
 from flask import Flask, url_for,render_template,request, redirect, session, Blueprint, flash
-from arquivos.dados import voos
-from arquivos.dados import loginSenha
+#from arquivos.dados import voos
+#from arquivos.dados import loginSenha
 import json
 import os
 
 app = Flask(__name__)
 ARQUIVO_VOOS = "arquivos/voos.json"
+ARQUIVOS_USUARIOS = "arquivos/funcionarios.json"#PRECISO ESCOLHER SE USUARIO E FUNCIONARIO VAI SER SEPARADO PARA TIRAR ESSA GAMBIARRA
 app.secret_key = "segredo123"
 #rotas
 
@@ -17,11 +18,21 @@ def principal():
 @app.route('/listaCatalogo')
 def listaCatalogo():
   titulo = "Voos"
+
+  if os.path.exists(ARQUIVO_VOOS):
+            with open(ARQUIVO_VOOS, "r") as arquivoJson:
+                voos = json.load(arquivoJson)#COLOCAR UM ELSE
+
   return render_template('listaCatalogo.html', titulo = titulo, voos = voos)
 
 @app.route('/tabelaUsuarios')
 def tabelaUsuarios():
-   titulo = 'Informacoes dos usuarios'
+   titulo = "Informacoes dos usuarios"
+
+   if os.path.exists(ARQUIVOS_USUARIOS):
+            with open(ARQUIVOS_USUARIOS, "r") as arquivoJson:
+                loginSenha = json.load(arquivoJson)#COLOCAR UM ELSE
+
    return render_template('tabelaUsuarios.html', titulo = titulo, loginSenha = loginSenha) 
 
 @app.route('/opcoes')
@@ -36,6 +47,10 @@ def login():
 
       email= request.form.get('email')
       senha = request.form.get('senha')
+
+      if os.path.exists(ARQUIVOS_USUARIOS):
+            with open(ARQUIVOS_USUARIOS, "r") as arquivoJson:
+                loginSenha = json.load(arquivoJson)#COLOCAR UM ELSE
 
       if email in loginSenha and loginSenha[email]['senha'] == senha:
           return redirect(url_for('opcoes'))
