@@ -1,27 +1,44 @@
 {
-    "LAT9012": {
-        "origem": "Bras\u00c3\u00adlia",
+    "0001": {
+        "codigo": "0001",
+        "origem": "Brasilia",
         "destino": "Fortaleza",
         "assentos": 200,
         "preco": 500.75
     },
-    "AZ3456": {
+    "0002": {
+        "codigo": "0002",
         "origem": "farol",
         "destino": "gdtr",
         "assentos": 233,
         "preco": 444444444.0
     },
-    "GOL7890": {
+    "0003": {
+        "codigo": "0003",
         "origem": "Salvador",
         "destino": "Manaus",
         "assentos": 170,
         "preco": 600.0
     },
-    "12345": {
-        "codigo": "12345",
+    "0004": {
+        "codigo": "0004",
         "origem": "braza",
         "destino": "outromundo",
         "assentos": "234",
         "preco": "222"
+    },
+    "0045": {
+        "codigo": "0045",
+        "origem": "braza",
+        "destino": "outromundo",
+        "assentos": "234",
+        "preco": "222"
+    },
+    "0090": {
+        "codigo": "0090",
+        "origem": "salvador",
+        "destino": "lua",
+        "assentos": "34",
+        "preco": "234444"
     }
 }
