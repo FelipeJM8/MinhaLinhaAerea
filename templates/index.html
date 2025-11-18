@@ -23,8 +23,22 @@
             background-repeat: no-repeat;
         }
 
+        .navbar-wrapper {
+            width: 100%;
+            background: #000;  /* fundo preto padrão */
+            padding: 3px;      /* espaço para mostrar o dourado */
+    
+            border: 3px solid #d4af37;
+            border-radius: 20px;
+            box-shadow: 0px 0px 18px rgba(212, 175, 55, 0.8);
+        }
+
         .navbar-custom {
-            background-color: #000000;
+            background-color: #000;
+            border-radius: 15px; /* arredondamento interno */
+
+            padding-top: 1px;   /* diminui altura interna */
+            padding-bottom: 1px;
         }
 
         .navbar-brand {
@@ -41,6 +55,21 @@
             color: rgb(255, 255, 255) !important;
         }
 
+        .btn-gold-metal {
+            background: linear-gradient(135deg, #f0d98a, #d4af37, #b8871a);
+            color: #000;
+            font-weight: bold;
+            border: 1px solid #d4af37;
+            border-radius: 8px;
+            box-shadow: 0px 0px 6px rgba(212, 175, 55, 0.7);
+            transition: 0.2s ease-in-out;
+        }
+
+        .btn-gold-metal:hover {
+            background: linear-gradient(135deg, #fff2b8, #e6c555, #c49528);
+            box-shadow: 0px 0px 10px rgba(212, 175, 55, 0.95);
+        }
+
         /* Cartões estilo companhias aéreas */
         .card-custom {
             border: none;
@@ -48,77 +77,139 @@
             overflow: hidden;
             box-shadow: 0 6px 20px rgb(255, 255, 255);
         }
+        
+        /* Parte nova *//* Parte nova *//* Parte nova *//* Parte nova *//* Parte nova */
+        /* Parte nova *//* Parte nova *//* Parte nova *//* Parte nova *//* Parte nova */
+        .flight-search-container {
+            max-width: 900px;
+            margin: 0px auto 50px auto;  /*Ajuste a margem superior para subir no HERO */
+            padding: 30px;
+            background: linear-gradient(135deg, #ffcd29, #FFD700, #B8860B); 
+            border-radius: 15px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.5); /* Sombra para destacar */
+            color: #000000; /* Cor do texto principal (Preto) */
+        }
+
+        .flight-search-title {
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 1.7em;
+            color: #000000;
+            font-weight: 900;
+        }
+
+        .search-fields {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            justify-content: space-between;
+        }
+
+        .field-group {
+            flex: 1;
+            min-width: 150px;
+            margin-bottom: 10px;
+        }
+
+        .field-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        .field-group input[type="text"],
+        .field-group input[type="date"] {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #000000;
+            border-radius: 8px;
+            box-sizing: border-box;
+            background-color: #FFFFFF;
+            color: #000000;
+        }
+
+        .search-button {
+            display: block;
+            width: 100%;
+            padding: 15px;
+            margin-top: 20px;
+            background-color: #000000; /* Fundo preto para destaque */
+            color: #FFD700; /* Texto dourado */
+            border: none;
+            border-radius: 8px;
+            font-size: 1.2em;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .search-button:hover {
+            background-color: #333333;
+        }
     </style>
 
 </head>
 <body>
 
 <!-- NAVBAR -->
-<nav class="navbar navbar-expand-lg navbar-custom">
-    <div class="container d-flex justify-content-between align-items-center">
+<div class="navbar-wrapper">
+    <nav class="navbar navbar-expand-lg navbar-custom">
+        <div class="container d-flex justify-content-between align-items-center">
         
-        <!-- Esquerda -->
-        <a class="navbar-brand" href="/">Anúbis</a>
-
-        <!-- Direita -->
-        <div class="d-flex align-items-center">
-            <a class="btn btn-light btn-sm me-2">
-                Minhas Reservas
+            <!-- Esquerda -->
+            <a class="navbar-brand d-flex align-items-center" href="/">
+                <img src="./static/img/AnubisMoeda2.png" alt="Logo Anúbis" class="me-2" style="height: 40px;">
             </a>
+
+            <!-- Direita -->
+            <div class="d-flex align-items-center">
+                <a class="btn btn-gold-metal btn-sm me-2">
+                    Minhas Reservas
+                </a>
             
-            <a class="btn btn-light btn-sm me-2">
-                Menu
-            </a>
+                <a class="btn btn-gold-metal btn-sm me-2">
+                    Menu
+                </a>
             
-            <a href="{{ url_for('login') }}" class="btn btn-light btn-sm">
-                Login
-            </a>
-        </div>
-    </div>
-</nav>
-
-<!-- HERO -->
-<div class="hero"></div>
-
-<!-- CONTEÚDO PRINCIPAL -->
-<div class="container mt-5">
-
-    <div class="row justify-content-center">
-        <div class="col-md-8">
-
-            <div class="card card-custom p-4">
-                <h4 class="text-center mb-3">Linhas Disponíveis</h4>
-
-                <table class="table table-hover text-center">
-                    <thead class="table-dark">
-                        <tr>
-                            <th>Código</th>
-                            <th>Origem</th>
-                            <th>Destino</th>
-                            <th>Preço</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <!-- Exemplo (substitua por dados reais) -->
-                        <tr>
-                            <td>01203</td>
-                            <td>Salvador</td>
-                            <td>São Paulo</td>
-                            <td>R$ 100,00</td>
-                        </tr>
-                        <tr>
-                            <td>01340</td>
-                            <td>Salvador</td>
-                            <td>Acre</td>
-                            <td>R$ 200,00</td>
-                        </tr>
-                    </tbody>
-                </table>
-
+                <a href="{{ url_for('login') }}" class="btn btn-gold-metal btn-sm">
+                    Login
+                </a>
             </div>
         </div>
-    </div>
+    </nav>
+</div>
 
+
+<div class="hero"></div>
+
+<div class="flight-search-container">
+    <form id="flight-search-form" action="#" method="GET"> 
+        <div class="search-fields">
+            <div class="field-group">
+                <label for="origem">Origem:</label>
+                <input type="text" id="origem" name="origem" placeholder="Cidade ou Aeroporto" required>
+            </div>
+
+            <div class="field-group">
+                <label for="destino">Destino:</label>
+                <input type="text" id="destino" name="destino" placeholder="Cidade ou Aeroporto" required>
+            </div>
+
+            <div class="field-group">
+                <label for="ida">Data de Ida:</label>
+                <input type="date" id="ida" name="ida" required>
+            </div>
+
+            <div class="field-group">
+                <label for="volta">Data de Volta (Opcional):</label>
+                <input type="date" id="volta" name="volta">
+            </div>
+        </div>
+        
+        <button type="submit" class="search-button">
+            Buscar Voos Anúbis
+        </button>
+    </form>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
