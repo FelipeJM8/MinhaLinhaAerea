@@ -1,15 +1,15 @@
 {
     "0001": {
         "codigo": "0001",
-        "origem": "Brasilia",
+        "origem": "Salvador",
         "destino": "Fortaleza",
         "assentos": 200,
         "preco": 500.75
     },
     "0002": {
         "codigo": "0002",
-        "origem": "farol",
-        "destino": "gdtr",
+        "origem": "Salvador",
+        "destino": "Rio de Janeiro",
         "assentos": 233,
         "preco": 444444444.0
     },
@@ -22,22 +22,22 @@
     },
     "0004": {
         "codigo": "0004",
-        "origem": "braza",
-        "destino": "outromundo",
+        "origem": "Salvador",
+        "destino": "Sao Paulo",
         "assentos": "234",
         "preco": "222"
     },
     "0045": {
         "codigo": "0045",
-        "origem": "braza",
-        "destino": "outromundo",
+        "origem": "Salvador",
+        "destino": "Buenos Aires",
         "assentos": "234",
         "preco": "222"
     },
     "0090": {
         "codigo": "0090",
-        "origem": "salvador",
-        "destino": "lua",
+        "origem": "Salvador",
+        "destino": "veneza",
         "assentos": "34",
         "preco": "234444"
     }

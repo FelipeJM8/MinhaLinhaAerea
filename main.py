@@ -1,6 +1,5 @@
 from flask import Flask, url_for,render_template,request, redirect, session, Blueprint, flash
-#from arquivos.dados import voos
-#from arquivos.dados import loginSenha
+
 import json
 import os
 
@@ -164,3 +163,21 @@ def criar():
    return render_template('criar.html')
 
 app.run(debug=True)
+
+
+@app.route('/BTreeClientes')
+def BTreeClientes():
+
+    
+    Ap, chave, dataframe = Inserir(Ap, chave)
+
+    dataframe = pd.read_csv(arq)
+    
+    Ap, chave = _InserirElementos(Ap, ordem, dataframe, chave)
+
+    reg.Chave = dataframe.iloc[i, 0]
+    reg.Elemento = i
+
+    Ap = _Insere(reg, Ap, ordem)
+
+    return render_template("BTreeClientes.html")
