@@ -1,15 +1,26 @@
 from flask import Flask, url_for,render_template,request, redirect, session, Blueprint, flash
+import arquivos.ArvoreB.BTreeBiblioteca as bt
 
+import pandas
 import json
 import os
 
+#VARIAVEIS PARA A ARVORE
+RAIZ_CPF = None
+RAIZ_NOME = None
+DATAFRAME = None
+CHAVE_CONTADOR = 0
+ORDEM = 10 
+ARQUIVO_CLIENTES = 'Clientes.csv'
+
+#//____________________//
 app = Flask(__name__)
 ARQUIVO_VOOS = "arquivos/voos.json"
-ARQUIVOS_USUARIOS = "arquivos/funcionarios.json"#PRECISO ESCOLHER SE USUARIO E FUNCIONARIO VAI SER SEPARADO PARA TIRAR ESSA GAMBIARRA
+ARQUIVOS_FUNCIONARIOS = "arquivos/funcionarios.json"
 app.secret_key = "segredo123"
 #rotas
 
-@app.route('/')#PRECISA SUBSTITUIR TOTALMENTE O ARQUIVO "dados" OU SEJA FAZER OS OUTRO json;
+@app.route('/')
 def principal():
     return render_template('index.html')
 
@@ -28,8 +39,8 @@ def listaCatalogo():
 def tabelaUsuarios():
    titulo = "Informacoes dos usuarios"
 
-   if os.path.exists(ARQUIVOS_USUARIOS):
-            with open(ARQUIVOS_USUARIOS, "r") as arquivoJson:
+   if os.path.exists(ARQUIVOS_FUNCIONARIOS):
+            with open(ARQUIVOS_FUNCIONARIOS, "r") as arquivoJson:
                 loginSenha = json.load(arquivoJson)#COLOCAR UM ELSE
 
    return render_template('tabelaUsuarios.html', titulo = titulo, loginSenha = loginSenha) 
@@ -47,8 +58,8 @@ def login():
       email= request.form.get('email')
       senha = request.form.get('senha')
 
-      if os.path.exists(ARQUIVOS_USUARIOS):
-            with open(ARQUIVOS_USUARIOS, "r") as arquivoJson:
+      if os.path.exists(ARQUIVOS_FUNCIONARIOS):
+            with open(ARQUIVOS_FUNCIONARIOS, "r") as arquivoJson:
                 loginSenha = json.load(arquivoJson)#COLOCAR UM ELSE
 
       if email in loginSenha and loginSenha[email]['senha'] == senha:
@@ -164,20 +175,57 @@ def criar():
 
 app.run(debug=True)
 
+def inicializar_arvores():
+    global RAIZ_CPF, RAIZ_NOME, DATAFRAME, CHAVE_CONTADOR
 
-@app.route('/BTreeClientes')
+    colunas_dtype = {0: str}
+    try:
+        df = pd.read_csv(ARQUIVO_CLIENTES, header=None, dtype=colunas_dtype)
+        RAIZ_CPF, RAIZ_NOME, CHAVE_CONTADOR = bt._InserirElementos(
+        RAIZ_CPF, RAIZ_NOME, ORDEM, df, CHAVE_CONTADOR
+        )
+        DATAFRAME = df
+        print("Árvores B (CPF e Nome) construídas com sucesso.")
+    except FileNotFoundError:
+            print(f"ERRO: Arquivo {ARQUIVO_DADOS} não encontrado. As árvores não foram carregadas.")
+
+from flask import Flask, render_template, request, jsonify
+
+
+@app.route('/BTreeClientes', methods = ['GET', 'POST'])
 def BTreeClientes():
-
+    resultado = None #MODIFICAR ARQUIVO HTML PARA RECEBER O REGISTRO
     
-    Ap, chave, dataframe = Inserir(Ap, chave)
+    if request.method == 'POST':
+        
+        nome = request.form.get('nome', default='').strip()
 
-    dataframe = pd.read_csv(arq)
-    
-    Ap, chave = _InserirElementos(Ap, ordem, dataframe, chave)
+        if nome:
+            reg_busca = bt.Registro()
+            reg_busca.Chave = nome
 
-    reg.Chave = dataframe.iloc[i, 0]
-    reg.Elemento = i
+            resultado_registro = bt.Pesquisa(reg_busca, RAIZ_NOME)
+            
+            if resultado_registro:
+        
+                indice_df = resultado_registro.Elemento
+                dados_completos = DATAFRAME.iloc[indice_df].to_dict()
 
-    Ap = _Insere(reg, Ap, ordem)
-
-    return render_template("BTreeClientes.html")
+                resultado = {
+                    "status": "sucesso",
+                    "nome_buscado": nome,
+                    "dados": dados_completos
+                }
+            else:
+                resultado = {
+                    "status": "nao_encontrado",
+                    "nome_buscado": nome,
+                    "mensagem": f"O nome '{nome}' não foi encontrado na Árvore B."
+                }
+        else:
+            resultado = {
+                "status": "aviso",
+                "mensagem": "Por favor, digite um nome para pesquisar."
+            }
+        
+    return render_template("BTreeClientes.html", resultado=resultado)
