@@ -1,7 +1,7 @@
-from flask import Flask, url_for,render_template,request, redirect, session, Blueprint, flash
+from flask import Flask, url_for,render_template,request, redirect, session, Blueprint, flash, jsonify
 import arquivos.ArvoreB.BTreeBiblioteca as bt
 
-import pandas
+import pandas as pd
 import json
 import os
 
@@ -173,7 +173,6 @@ def criar():
       return render_template('criar.html')
    return render_template('criar.html')
 
-app.run(debug=True)
 
 def inicializar_arvores():
     global RAIZ_CPF, RAIZ_NOME, DATAFRAME, CHAVE_CONTADOR
@@ -187,45 +186,66 @@ def inicializar_arvores():
         DATAFRAME = df
         print("Árvores B (CPF e Nome) construídas com sucesso.")
     except FileNotFoundError:
-            print(f"ERRO: Arquivo {ARQUIVO_DADOS} não encontrado. As árvores não foram carregadas.")
-
-from flask import Flask, render_template, request, jsonify
+            print(f"ERRO: Arquivo {ARQUIVO_CLIENTES} não encontrado. As árvores não foram carregadas.")
 
 
-@app.route('/BTreeClientes', methods = ['GET', 'POST'])
-def BTreeClientes():
-    resultado = None #MODIFICAR ARQUIVO HTML PARA RECEBER O REGISTRO
-    
+
+
+@app.route('/PesquisaClientes', methods = ['GET', 'POST'])
+def BTreeCliente():
+    resultado = None 
+
     if request.method == 'POST':
         
         nome = request.form.get('nome', default='').strip()
 
-        if nome:
-            reg_busca = bt.Registro()
-            reg_busca.Chave = nome
+        if not nome:
 
-            resultado_registro = bt.Pesquisa(reg_busca, RAIZ_NOME)
-            
-            if resultado_registro:
+            return redirect(url_for('Processar_erro'))
         
-                indice_df = resultado_registro.Elemento
-                dados_completos = DATAFRAME.iloc[indice_df].to_dict()
+        reg_busca = bt.Registro()
+        reg_busca.Chave = nome
 
-                resultado = {
-                    "status": "sucesso",
-                    "nome_buscado": nome,
-                    "dados": dados_completos
-                }
-            else:
-                resultado = {
-                    "status": "nao_encontrado",
-                    "nome_buscado": nome,
-                    "mensagem": f"O nome '{nome}' não foi encontrado na Árvore B."
-                }
-        else:
+        resultado_registro = bt.Pesquisa(reg_busca, RAIZ_NOME)
+        
+        if resultado_registro:
+    
+            indice_df = resultado_registro.Elemento
+            dados_completos = DATAFRAME.iloc[indice_df].to_dict()
+
             resultado = {
-                "status": "aviso",
-                "mensagem": "Por favor, digite um nome para pesquisar."
+                "status": "sucesso",
+                "nome_buscado": nome,
+                "dados": dados_completos
             }
+            
+        else: 
+            
+            return redirect(url_for('Processar_erro'))
+                
+        return redirect(url_for('ResultPesqCliente', resultado = resultado))
+            
+
+    return render_template("PesquisaClientes.html", resultado = resultado)
+
+
+
+@app.route('/ResultPesqCliente', methods = ['GET', 'POST'])
+def ResultPesqCliente():
+   resultado = {}
+
+   return render_template("ResultPesqCliente.html", resultado = resultado)
+
+@app.route('/Processar_erro', methods=['GET','POST'])
+def Processar_erro():
+   
+    previous_url = request.referrer
+    
+    if previous_url:
+       
+        return render_template("paginaDeErro.html", previous_url = previous_url)
+    else:
         
-    return render_template("BTreeClientes.html", resultado=resultado)
+        return redirect(url_for('index'))
+
+app.run(debug=True)

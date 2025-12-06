@@ -2,53 +2,94 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="Login" content="width=device-width, initial-scale=1.0">
-    <title>Login</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+    <title>Pesquisa de Clientes</title>
 </head>
 
 <body>
- 
-  <style>
-
-    
+    <style>
+        /* Estilos CSS (mantidos e organizados) */
         body {
-          
-           
-            background-image: url('.//static/img/CeuEstrelado.png');
-
+            background-image: url('./static/img/CeuEstrelado.png');
             background-size: cover;
-            
             background-position: center;
-            
             background-repeat: no-repeat;
-            
             background-attachment: fixed;
-            
             background-color: #000033; 
-        }       
-        h1, p {
-            color: rgb(0, 0, 0);
+        } 
+        h1, p, label, .form-text, div.container { /* Adicionei estilos para o texto ser visível */
+            color: white; 
             text-align: center;
         }
+        .container {
+            /* Estilo para a caixa de formulário, mantendo sua cor escura */
+            padding: 20px;
+            margin-top: 50px;
+            border-radius: 10px;
+            max-width: 400px; /* Limita a largura para melhor visualização */
+            margin-left: auto;
+            margin-right: auto;
+        }
+        table {
+            color: white; /* Garante que o texto da tabela seja visível no fundo escuro */
+            border-collapse: collapse;
+            width: 80%;
+            margin: 20px auto;
+        }
+        th, td {
+            border: 1px solid white;
+            padding: 8px;
+            text-align: left;
+        }
+        .resultado-sucesso { background-color: rgba(76, 175, 80, 0.8); }
+        .resultado-erro { background-color: rgba(244, 67, 54, 0.8); }
     </style>
-        <div class="container text-center" style ="background-color: rgba(33, 3, 142, 0.636);">
 
-  
-  <form action="login" method="POST">
-<center>
-  <div class="mb-3">   
-    <h1 class = "text-center">Clientes</h1>
-    <p></p> 
-    <label for="exampleInputNome" class="form-label">Nome</label>
-    <input type="nome" name="nome" class="form-control" id="exampleInputNome" aria-describedby="nomeHelp">
-    <div id="nomeHelp" class="form-text"></div>  
-  </div>
+    <div class="container text-center" style ="background-color: rgba(33, 3, 142, 0.636);">
 
-  <button type="submit" class="btn btn-primary">Buscar</button>
+        <form action="/BTreeCliente" method="POST"> <center>
+                <div class="mb-3">   
+                    <h1 class="text-center">Clientes</h1>
+                    <p>Pesquisa por Nome na Árvore B</p> 
+                    <label for="exampleInputNome" class="form-label">Nome</label>
+                    <input type="text" name="nome" class="form-control" id="exampleInputNome" aria-describedby="nomeHelp">
+                    <div id="nomeHelp" class="form-text">Digite o nome completo do cliente.</div>  
+                </div>
+                <button type="submit" class="btn btn-primary">Buscar</button>
+            </center>
+        </form>
+    </div> 
+    
+    {% if resultado %}
+        {% if resultado.status == 'sucesso' %}
+            <div class="resultado-sucesso container">
+                <h2>✅ Cliente Encontrado!</h2>
+                <p>Nome Buscado: <strong>{{ resultado.nome_buscado }}</strong></p>
+                
+                <table>
+                    <thead>
+                        <tr><th>Campo</th><th>Valor</th></tr>
+                    </thead>
+                    <tbody>
+                        {% for coluna, valor in resultado.dados.items() %}
+                        <tr>
+                            <td>
+                                {% if coluna == 0 %} CPF {% elif coluna == 1 %} Nome {% else %} Col. {{ coluna }} {% endif %}
+                            </td>
+                            <td>{{ valor }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
 
-  </center>
-  </div> 
-</form>
+        {% elif resultado.status == 'nao_encontrado' or resultado.status == 'aviso' %}
+            <div class="resultado-erro container">
+                <h2>{% if resultado.status == 'aviso' %}⚠️ Aviso{% else %}❌ Não Encontrado{% endif %}</h2>
+                <p>{{ resultado.mensagem }}</p>
+            </div>
+        {% endif %}
+    {% endif %}
     
 </body>
 </html>

@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="PesquisaClientes" content="width=device-width, initial-scale=1.0">
+    <title>Pesquisa de Clientes</title>
+</head>
+
+<body>
+ 
+  <style>
+
+    
+        body {
+          
+           
+            background-image: url('.//static/img/CeuEstrelado.png');
+
+            background-size: cover;
+            
+            background-position: center;
+            
+            background-repeat: no-repeat;
+            
+            background-attachment: fixed;
+            
+            background-color: #000033; 
+        }       
+        h1, p {
+            color: rgb(0, 0, 0);
+            text-align: center;
+        }
+    </style>
+        <div class="container text-center" style ="background-color: rgba(33, 3, 142, 0.636);">
+
+  
+  <form action="PesquisaClientes" method="POST">
+<center>
+  <div class="mb-3">   
+    <h1 class = "text-center">Pesquisar Clientes</h1>
+    <p></p> 
+    <label for="exampleInputNome" class="form-label">Nome</label>
+    <input type="Nome" name="Nome" class="form-control" id="exampleInputNome" aria-describedby="nomeHelp">
+    <div id="nomeHelp" class="form-text"></div>  
+  </div>
+
+ 
+  <button type="submit" class="btn btn-primary">Procurar</button>
+
+  </center>
+  </div> 
+</form>
+    
+</body>
+</html>
