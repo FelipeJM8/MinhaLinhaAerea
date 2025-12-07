@@ -11,7 +11,10 @@ RAIZ_NOME = None
 DATAFRAME = None
 CHAVE_CONTADOR = 0
 ORDEM = 10 
-ARQUIVO_CLIENTES = 'Clientes.csv'
+NOME_ARQUIVO_CLIENTES = 'arquivos/Clientes.csv'
+
+DIRETORIO_ATUAL = os.path.dirname(os.path.abspath(__file__)) 
+ARQUIVO_CLIENTES = os.path.join(DIRETORIO_ATUAL, NOME_ARQUIVO_CLIENTES)
 
 #//____________________//
 app = Flask(__name__)
@@ -201,11 +204,10 @@ def BTreeCliente():
 
         if not nome:
 
-            return redirect(url_for('Processar_erro'))
+            return redirect(url_for('Processar_erro', msg = "Digite algo no campo" ))
         
         reg_busca = bt.Registro()
         reg_busca.Chave = nome
-
         resultado_registro = bt.Pesquisa(reg_busca, RAIZ_NOME)
         
         if resultado_registro:
@@ -221,7 +223,7 @@ def BTreeCliente():
             
         else: 
             
-            return redirect(url_for('Processar_erro'))
+            return redirect(url_for('Processar_erro', msg = "Nome nao encontrado"))
                 
         return redirect(url_for('ResultPesqCliente', resultado = resultado))
             
@@ -238,14 +240,20 @@ def ResultPesqCliente():
 
 @app.route('/Processar_erro', methods=['GET','POST'])
 def Processar_erro():
+    
+    mensagem_de_erro = request.args.get('msg')
    
     previous_url = request.referrer
     
     if previous_url:
        
-        return render_template("paginaDeErro.html", previous_url = previous_url)
+        return render_template("paginaDeErro.html", previous_url = previous_url,
+                                msg = mensagem_de_erro)
     else:
         
         return redirect(url_for('index'))
+    
 
-app.run(debug=True)
+if __name__ == '__main__':
+    inicializar_arvores() 
+    app.run(debug=True)
