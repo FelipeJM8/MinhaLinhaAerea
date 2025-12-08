@@ -204,7 +204,7 @@ def BTreeCliente():
 
         if not nome:
 
-            return redirect(url_for('Processar_erro', msg = "Digite algo no campo" ))
+            return redirect(url_for('Processar_erro', msg = "Campo Invalido" ))
         
         reg_busca = bt.Registro()
         reg_busca.Chave = nome
@@ -220,23 +220,19 @@ def BTreeCliente():
                 "nome_buscado": nome,
                 "dados": dados_completos
             }
+
+            return render_template("ResultPesqCliente.html", resultado=resultado)
             
         else: 
             
             return redirect(url_for('Processar_erro', msg = "Nome nao encontrado"))
                 
-        return redirect(url_for('ResultPesqCliente', resultado = resultado))
+
             
 
     return render_template("PesquisaClientes.html", resultado = resultado)
 
 
-
-@app.route('/ResultPesqCliente', methods = ['GET', 'POST'])
-def ResultPesqCliente():
-   resultado = {}
-
-   return render_template("ResultPesqCliente.html", resultado = resultado)
 
 @app.route('/Processar_erro', methods=['GET','POST'])
 def Processar_erro():
