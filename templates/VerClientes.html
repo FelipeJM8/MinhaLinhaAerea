@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de Clientes</title>
+    <style>
+        /* Estilos CSS simples para melhor visualização */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f4f4f9;
+        }
+        h1 {
+            color: #333;
+            border-bottom: 2px solid #ccc;
+            padding-bottom: 10px;
+        }
+        table {
+            width: 80%;
+            margin-top: 20px;
+            border-collapse: collapse;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            background-color: white;
+        }
+        th, td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        th {
+            background-color: #007bff;
+            color: white;
+            text-transform: uppercase;
+        }
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+        .container {
+            max-width: 900px;
+            margin: auto;
+        }
+        .no-data {
+            color: #ff0000;
+            font-weight: bold;
+            padding: 20px;
+            text-align: center;
+            background-color: #ffe6e6;
+            border: 1px solid #ffb3b3;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>👥 Clientes Cadastrados</h1>
+
+        {# Verifica se a variável 'clientes' existe e tem elementos #}
+        {% if clientes and clientes|length > 0 %}
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Nome</th>
+                        <th>Email</th>
+                        {# Adicione outras colunas aqui, se necessário #}
+                    </tr>
+                </thead>
+                <tbody>
+                    {# Loop para iterar sobre a lista de clientes #}
+                    {% for cliente in clientes %}
+                    <tr>
+                        <td>{{ cliente.id }}</td>
+                        <td>{{ cliente.nome }}</td>
+                        <td>{{ cliente.email }}</td>
+                        {# Adicione a exibição de outros atributos do cliente aqui #}
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% else %}
+            {# Mensagem exibida se a lista de clientes estiver vazia ou não for passada #}
+            <div class="no-data">
+                <p>Nenhum cliente foi encontrado.</p>
+            </div>
+        {% endif %}
+
+        <p style="margin-top: 30px;">
+            <a href="{{ url_for('index') }}" style="text-decoration: none; color: #007bff;">&#x2190; Voltar para a página inicial</a>
+            {# Você precisará ter um endpoint chamado 'index' definido no seu Flask app #}
+        </p>
+    </div>
+</body>
+</html>

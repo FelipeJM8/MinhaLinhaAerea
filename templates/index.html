@@ -183,19 +183,14 @@
 <div class="hero"></div>
 
 <div class="flight-search-container">
-    <form id="flight-search-form" action="#" method="GET"> 
+    <form id="flight-search-form" action="{{ url_for('escolherRota') }}" method="GET"> 
         <div class="search-fields">
             <div class="field-group">
                 <label for="origem">Origem:</label>
                 <input type="text" id="origem" name="origem" placeholder="Cidade ou Aeroporto" required>
             </div>
 
-            <div class="field-group">
-                <label for="destino">Destino:</label>
-                <input type="text" id="destino" name="destino" placeholder="Cidade ou Aeroporto" required>
-            </div>
-
-            <div class="field-group">
+              <!--<div class="field-group">
                 <label for="ida">Data de Ida:</label>
                 <input type="date" id="ida" name="ida" required>
             </div>
@@ -203,10 +198,16 @@
             <div class="field-group">
                 <label for="volta">Data de Volta (Opcional):</label>
                 <input type="date" id="volta" name="volta">
+            </div>-->
+
+            <div class="field-group">
+                <label for="destino">Destino:</label>
+                <input type="text" id="destino" name="destino" placeholder="Cidade ou Aeroporto" required>
             </div>
-        </div>
+
+            </div>
         
-        <button type="submit" class="search-button">
+        <button type="submit" class="search-button"> 
             Buscar Voos Anúbis
         </button>
     </form>

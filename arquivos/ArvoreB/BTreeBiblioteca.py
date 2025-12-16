@@ -160,14 +160,18 @@ def Inserir(Ap, ApNome, chave, quant):
 
 #Impressão
 
-def Imprime(Ap):
+def Imprime(Ap):#CRIA UMA FILA E ARMAZENA TODOS OS DADOS DA ARVORE NELA
+  resultado = []
   if (Ap != None):
     i = 0
     while i < Ap.n:
-      Imprime(Ap.p[i])
-      print(Ap.r[i].Chave, "-", Ap.r[i].Elemento)
+      resultado.extend(Imprime(Ap.p[i]))
+      resultado.append((Ap.r[i].Chave, "-", Ap.r[i].Elemento))
       i += 1
-    Imprime(Ap.p[i])
+
+      resultado.extend.Imprime(Ap.p[i])
+
+    return resultado  
 
 def ImprimeMenor(x, Ap):
   if (Ap != None):

@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="pt-br">
+<head>
+    <meta charset="utf-8">
+    <title>Escolher Rota</title>
+</head>
+<body>
+    <h1>Rota de {{ origem }} para {{ destino }}</h1>
+
+    {% if resultado %}
+        <h2>Resultado da Busca</h2>
+        <p>{{ resultado }}</p>
+
+        {% if nome_arquivo_grafo %}
+            <img src="/static/{{ nome_arquivo_grafo }}" alt="Grafo da Rota">
+        {% else %}
+            <p>Não foi possível gerar a imagem do grafo.</p>
+        {% endif %}
+
+        <p><a href="{{ url_for('principal') }}">Fazer uma nova busca</a></p>
+
+    {% else %}
+        
+        <h2>Selecione o Critério de Otimização:</h2>
+        
+        <form action="{{ url_for('escolherRota') }}" method="POST">
+            <input type="hidden" name="origem" value="{{ origem }}">
+            <input type="hidden" name="destino" value="{{ destino }}">
+
+            <p>
+                <input type="radio" id="preco" name="metrica" value="preco" required>
+                <label for="preco">Rota de Menor **Preço**</label>
+            </p>
+            <p>
+                <input type="radio" id="tempo" name="metrica" value="tempo" required>
+                <label for="tempo">Rota de Menor **Tempo**</label>
+            </p>
+
+            <button type="submit">Buscar Rota Otimizada</button>
+        </form>
+
+    {% endif %}
+
+</body>
+</html>

@@ -1,6 +1,7 @@
 from flask import Flask, url_for,render_template,request, redirect, session, Blueprint, flash, jsonify
 import arquivos.ArvoreB.BTreeBiblioteca as bt
-
+from arquivos import grafo_completo
+from igraph import *
 import pandas as pd
 import json
 import os
@@ -26,6 +27,63 @@ app.secret_key = "segredo123"
 @app.route('/')
 def principal():
     return render_template('index.html')
+
+# Rota atualizada para lidar com a busca de rotas
+@app.route('/escolherRota', methods=['GET', 'POST'])
+def escolherRota():
+    
+    # ----------------------------------------------------
+    # Caso 1: Requisição POST (Usuário escolheu a métrica)
+    # ----------------------------------------------------
+    if request.method == 'POST':
+        origem = request.form.get('origem')
+        destino = request.form.get('destino')
+        metrica = request.form.get('metrica') # 'preco' ou 'tempo'
+
+        nome_arquivo_grafo = None
+        mensagem_resultado = None
+        
+        if metrica == 'preco':
+            # Chama a função RotaMaisBarata (assumindo que está em grafo_completo)
+            nome_arquivo_grafo, mensagem_resultado = grafo_completo.RotaMaisBarata(origem, destino)
+            
+        elif metrica == 'tempo':
+            # Chama a função RotaMenorTempo (assumindo que está em grafo_completo)
+            nome_arquivo_grafo, mensagem_resultado = grafo_completo.RotaMenorTempo(origem, destino)
+            
+        else:
+            mensagem_resultado = "Métrica de busca inválida. Escolha 'preco' ou 'tempo'."
+
+        # Retorna o resultado para o template para exibição
+        return render_template(
+            'escolherRota.html', 
+            origem=origem, 
+            destino=destino, 
+            resultado=mensagem_resultado,
+            nome_arquivo_grafo=nome_arquivo_grafo # Nome do arquivo .png gerado
+        )
+        
+    # ----------------------------------------------------
+    # Caso 2: Requisição GET (Primeira chegada, via index.html)
+    # ----------------------------------------------------
+    origem = request.args.get('origem')
+    destino = request.args.get('destino')
+    
+    # Validação simples
+    if not origem or not destino:
+        flash("Por favor, informe a origem e o destino.", "erro")
+        return redirect(url_for('principal'))
+
+    # Renderiza o template de escolha da métrica
+    return render_template(
+        'escolherRota.html', 
+        origem=origem, 
+        destino=destino
+    )
+
+
+
+
 
 
 @app.route('/listaCatalogo')
@@ -192,6 +250,19 @@ def inicializar_arvores():
             print(f"ERRO: Arquivo {ARQUIVO_CLIENTES} não encontrado. As árvores não foram carregadas.")
 
 
+@app.route('/VerClientes', methods = ['GET', 'POST'])
+def ListaClientes():
+    resultado = bt.Imprime(RAIZ_NOME)
+
+    if request.method == 'GET':
+         
+         if resultado != None:
+            
+             return render_template("VerClientes.html", clientes = resultado)
+         
+         else:
+             return redirect(url_for('Processar_erro', msg = "Nao encontrado" ))
+    
 
 
 @app.route('/PesquisaClientes', methods = ['GET', 'POST'])
@@ -226,9 +297,7 @@ def BTreeCliente():
         else: 
             
             return redirect(url_for('Processar_erro', msg = "Nome nao encontrado"))
-                
-
-            
+                          
 
     return render_template("PesquisaClientes.html", resultado = resultado)
 
@@ -247,7 +316,7 @@ def Processar_erro():
                                 msg = mensagem_de_erro)
     else:
         
-        return redirect(url_for('index'))
+        return redirect(url_for('principal'))
     
 
 if __name__ == '__main__':
